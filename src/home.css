@@ -1,0 +1,67 @@
+@CHARSET "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%; margin:0;
+	font-family: "Nanum Gothic", sans-serif;
+	font-size: 11pt;
+    background: -webkit-linear-gradient(#fdd339, #eb9562); 
+	background: -o-linear-gradient(#fdd339, #eb9562); 
+	background: -moz-linear-gradient(#fdd339, #eb9562); 
+	background: linear-gradient(#fdd339, #eb9562);
+	   
+}
+header {
+	height: 300px;
+	position: fixed;
+	top:0;
+}
+
+.logo {
+	height: 200px;
+	position: fixed;
+	top:20px;
+	right: 40px;
+}
+
+#todoCtr {
+	margin: 300px 0 0 30px;
+}
+
+.todoTable {
+	background-color: white;
+	border-radius: 3%;
+	width: 220px;
+	margin-bottom: 10px;
+	padding: 17px 0px 17px 15px;
+	
+}
+
+.todoWrite{
+	background-color: white;
+	border-radius: 3%;
+	width: 220px;
+	margin-bottom: 10px;
+	padding: 17px 0px 17px 15px;	
+}
+
+.todoForm {
+	font-size: 12pt;
+}
+.todoWriteBtn{
+	background-color: red;
+}
+
+.todoText{
+	display: inline-block;
+	margin-left: 10px;
+	
+}
+
+.todoDelete{
+	display: inline-block;
+}
