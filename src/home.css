@@ -13,12 +13,32 @@ body {
 	background: -o-linear-gradient(#fdd339, #eb9562); 
 	background: -moz-linear-gradient(#fdd339, #eb9562); 
 	background: linear-gradient(#fdd339, #eb9562);
+	overflow:hidden;
 	   
 }
 header {
 	height: 300px;
 	position: fixed;
 	top:0;
+}
+
+.flag {
+	position:fixed;
+	top:10px;
+	left: 30px;
+	width:192px;
+}
+
+.todomonInfo {
+	position:fixed;
+	top:70px;
+	left:80px;
+}
+
+#canvas {
+	position:fixed;
+	top:0px;
+	left:260px;
 }
 
 .logo {
@@ -30,6 +50,8 @@ header {
 
 #todoCtr {
 	margin: 300px 0 0 30px;
+	overflow: scroll;
+	height: 60%;
 }
 
 .todoTable {
@@ -38,6 +60,8 @@ header {
 	width: 220px;
 	margin-bottom: 10px;
 	padding: 17px 0px 17px 15px;
+	overflow:hidden;
+	white-space:nowrap;
 	
 }
 
@@ -46,7 +70,7 @@ header {
 	border-radius: 3%;
 	width: 220px;
 	margin-bottom: 10px;
-	padding: 17px 0px 17px 15px;	
+	padding: 17px 0px 17px 15px;
 }
 
 .todoForm {
@@ -58,8 +82,10 @@ header {
 
 .todoText{
 	display: inline-block;
+	width:150px;
 	margin-left: 10px;
-	
+	overflow:hidden;
+	white-space:nowrap;
 }
 
 .todoDelete{

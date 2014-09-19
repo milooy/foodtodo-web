@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script LANGUAGE="JavaScript">
+	var images = {};
+	
+	loadImage("todomon-body");
+	loadImage("todomon-leg");
+	
+	function loadImage(name) {
+		 images[name] = new Image();
+		 images[name].onload = function() {
+			 resourceLoaded();
+		 }
+		 images[name].src = "../img/todomon/" + name + ".png";
+		 alert(images[name].src);
+	}
+	
+	var totalResources = 2;
+	var numResourcesLoaded = 0;
+	var fps = 30;
+	
+	function resourceLoaded() {
+		 numResourcesLoaded += 1; //이미지가 로드될때마다 키우고  
+		 if(numResourcesLoaded === totalResources) { //다 로드되면 다시그림
+			 setInterval(redraw, 1000/fps);
+		 }
+	}
+	
+	var context = document.getElementById('canvas').getContext("2d");
+	var charX = 245;
+	var charY = 185;
+	
+	function redraw() {
+		 var x = charX;
+		 var y = charY;
+		 
+		 canvas.width = canvas.width; //canvas초기화 
+		 context.drawImage(images["todomon-body", x+40, y-42]);
+		 context.drawImage(images["todomon-leg", x, y]);
+		 
+	}
+</script>
+</head>
+<body>
+	<canvas id="canvas" width="200" height="200"></canvas>
+</body>
+</html>
