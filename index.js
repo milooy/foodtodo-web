@@ -201,7 +201,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 	 images[name].onload = function() {
 		 resourceLoaded();
 	 }
-	 images[name].src = "../img/todomon/" + name + ".png";
+	 images[name].src = "img/todomon/" + name + ".png";
  }
  
 
