@@ -16,8 +16,8 @@
 		<img class="flag" src="img/papyrus.png" />
 		<div class="todomonInfo">
 			<div class="nameInfo">율무</div>
-			<div class="level">LEVEL:2</div>
-			<div class="point">POINT:23/50</div>
+			<div class="level">LEVEL:{{info.level}}</div>
+			<div class="point">POINT:{{info.point}}/{{info.levelPoint}}</div>
 			<div class="hunger">HUNGER:35%</div>			
 		</div>
 		<div class="todomon">
@@ -27,13 +27,13 @@
 	<div data-ng-app="foodTodoWeb" data-ng-controller="TodoController as todoCtr" id="todoCtr">
 		<input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br />
 		<div class="todoWrite">
-			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="뭐할래잉?"/> 
+			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="뭐해먹을래?"/> 
 			<input class="todoWriteBtn" type="button" value="Add" data-ng-click="todoCtr.addTodo()" /> 
 		</div>
 		
 		<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
 			<div class="todoText">{{todo.text}}</div>
-			<div class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo(todo.id)">X</a>]</div>
+			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo(todo.id)">X</a>]</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="index.js"></script>

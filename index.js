@@ -80,6 +80,7 @@ app.factory('indexedDBDataCon', function($window, $q){
     return deferred.promise;
   };
   
+  /////Todo지우기/////
   var deleteTodo = function(id){
     var deferred = $q.defer();
     
@@ -105,6 +106,7 @@ app.factory('indexedDBDataCon', function($window, $q){
     return deferred.promise;
   };
   
+  /////Todo 추가//////
   var addTodo = function(todoText){
     var deferred = $q.defer();
     
@@ -140,6 +142,9 @@ app.factory('indexedDBDataCon', function($window, $q){
   };
   
 });
+
+
+
 
 app.controller('TodoController', function($window, indexedDBDataCon){
   var todoCtr = this;
@@ -183,7 +188,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 /////todomon움직임/////
 ///*
  var images = {};
- var totalResources = 2;
+ var totalResources = 3;
  var numResourcesLoaded = 0;
  var fps = 30;
  
@@ -195,6 +200,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
  
  loadImage("todomon-body");
  loadImage("todomon-leg");
+ loadImage("doughnut");
  
  function loadImage(name) {
 	 images[name] = new Image();
@@ -220,9 +226,11 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 	 canvas.width = canvas.width; //canvas초기화 
 	 context.drawImage(images["todomon-leg"], x, y+140);
 	 context.drawImage(images["todomon-body"], x, y - breathAmt);
+	 context.drawImage(images["doughnut"], x+20,y-70-curDoughnutHeight);
 	 
 	 drawEllipse(x+56, y+40 - breathAmt, 30, curEyeHeight); //왼쪽눈 
 	 drawEllipse(x+77, y+40 - breathAmt, 30, curEyeHeight); //오른쪽눈 
+	 drawMouth(context, x+20, y+50- breathAmt, curMouthHeight);
 	 
  }
  
@@ -280,47 +288,11 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		 }
 	 }
  }
-/*
+
  var maxEyeHeight = 25;
  var curEyeHeight = maxEyeHeight;
- var eyeOpenTime = 0; //눈뜨고 있은 시간 
- var timeBtwBlinks = 4000; //윙크 간격 
- var blinkUpdateTime = 200; //윙크상태 업데이트된 지난 초 
- var blinkTimer = setInterval(updateBlink, blinkUpdateTime);
- 
- function updateBlink() {
-	 eyeOpenTime += blinkUpdateTime;
-	 if(eyeOpenTime >=timeBtwBlinks) {
-		 blink();
-	 }
- }
- 
- 
- function blink() {
-	 curEyeHeight -= 1;
-	 if(curEyeHeight <=0) {
-		 eyeOpenTime = 0;
-		 curEyeHeight = maxEyeHeight;
-	 } else {
-		 setTimeout(blink, 10);
-	 }
- }
- */
- var maxEyeHeight = 25;
- var curEyeHeight = maxEyeHeight;
- var eyeOpenTime = 0; //눈뜨고 있은 시간 
- var timeBtwBlinks = 4000; //윙크 간격 
- var blinkUpdateTime = 200; //윙크상태 업데이트된 지난 초 
  var blinkTimer = setInterval(blink, 4000);
  
-// function updateBlink() {
-//	 eyeOpenTime += blinkUpdateTime;
-//	 if(eyeOpenTime >=timeBtwBlinks) {
-//		 blink();
-//	 }
-// }
- 
- 
  function blink() {
 	 curEyeHeight -= 1;
 	 if(curEyeHeight <=0) {
@@ -328,5 +300,57 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		 curEyeHeight = maxEyeHeight;
 	 } else {
 		 setTimeout(blink, 10);
+	 }
+ }
+ 
+ function drawMouth(ctx, xoff, yoff, curEyeHeight) {
+	  ctx.beginPath();
+	  ctx.moveTo(39 + xoff, 29 + yoff-curMouthHeight);
+	  ctx.bezierCurveTo(26 + xoff+curMouthHeight, 27 + yoff-curMouthHeight, 21 + xoff, 10 + yoff, 16 + xoff, 19 + yoff);
+	  ctx.bezierCurveTo(9 + xoff, 31 + yoff, 32 + xoff, 44 + yoff, 44 + xoff, 46 + yoff);
+	  ctx.bezierCurveTo(58 + xoff, 48 + yoff, 65 + xoff, 48 + yoff, 78 + xoff, 40 + yoff);
+	  ctx.bezierCurveTo(92 + xoff, 31 + yoff, 82 + xoff, 54 + yoff, 92 + xoff, 50 + yoff);
+	  ctx.bezierCurveTo(100 + xoff, 47 + yoff, 100 + xoff, 13 + yoff, 93 + xoff, 14 + yoff);
+	  ctx.bezierCurveTo(83 + xoff, 15 + yoff, 90 + xoff, 20 + yoff-curMouthHeight, 77 + xoff, 26 + yoff-curMouthHeight);
+	  ctx.bezierCurveTo(64 + xoff, 32 + yoff-curMouthHeight, 52 + xoff, 32 + yoff-curMouthHeight, 39 + xoff, 29 + yoff-curMouthHeight);
+	  ctx.fillStyle = "#ffeceb";
+	  ctx.fill();
+	  ctx.closePath();
+	}
+
+ var maxMouthHeight = 0;
+ var curMouthHeight = maxMouthHeight;
+ var maxDoughnutHeight = 0;
+ var curDoughnutHeight = maxDoughnutHeight;
+ function eatTodo() {
+//	 var deleteBtn = document.getElementsByClassName('todoDelete');
+//	 var blinkMouthTimer = setInterval(blinkMouth, 1000);
+	 
+	 eatDoughnut();
+	 setTimeout(goBlinkMouth, 500);
+ }
+ 
+ function blinkMouth() {
+	 curMouthHeight -= 1;
+	 if(curMouthHeight <=-15) {
+		 curMouthHeight = maxMouthHeight;
+	 } else {
+		 setTimeout(blinkMouth, 10);
+	 }
+ }
+ 
+ function goBlinkMouth() {
+	 blinkMouth();
+	 blinkMouth();
+	 blinkMouth();
+	 blinkMouth();
+ }
+ 
+ function eatDoughnut() {
+	 curDoughnutHeight -=1;
+	 if(curDoughnutHeight <=-120) {
+		 curDoughnutHeight = maxDoughnutHeight;
+	 } else {
+		 setTimeout(eatDoughnut, 1);
 	 }
  }
