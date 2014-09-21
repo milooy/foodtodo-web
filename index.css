@@ -32,9 +32,22 @@ header {
 
 .todomonInfo {
 	position:fixed;
-	top:70px;
-	left:80px;
+	top:51px;
+	left:61px;
+	font-family: 'Gochi Hand', cursive;
+	font-size: 16pt;
+	color: #9a8a7b;
 }
+
+.nameInfo {
+	font-size: 18pt;
+	font-weight: 900;
+	margin-left: 31px;
+	color: #552e11;	
+}
+
+.level{margin-left: 15px;}
+.point{margin-left: 5px;}
 
 #canvas {
 	position:fixed;
@@ -103,9 +116,10 @@ header {
 
 .todoForm {
 	font-size: 12pt;
+	width: 160px;
 }
 .todoWriteBtn{
-	background-color: red;
+	width: 30px;
 }
 
 .todoText{
@@ -118,4 +132,8 @@ header {
 
 .todoDelete{
 	display: inline-block;
+}
+
+.check {
+	width: 30px;
 }
