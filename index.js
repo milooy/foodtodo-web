@@ -12,7 +12,7 @@ app.factory('indexedDBDataCon', function($window, $q){
   /////오픈///// 	
   var open = function(){
     var deferred = $q.defer();//$q 사용하기
-    var version = 4;
+    var version = 5;
     var request = indexedDB.open("todoData", version);//디비 만들or열기
   
     //db를 만들거나 업데이트하기 
@@ -27,19 +27,23 @@ app.factory('indexedDBDataCon', function($window, $q){
       if(db.objectStoreNames.contains("todo2")) {
     	  db.deleteObjectStore("todo2");
       }
+      if(db.objectStoreNames.contains("todo3")) {
+    	  db.deleteObjectStore("todo3");
+      }
+      if(db.objectStoreNames.contains("todo4")) {
+    	  db.deleteObjectStore("todo4");
+      }
       if(db.objectStoreNames.contains("info")) {
     	  db.deleteObjectStore("info");
       }
       
       //투두에 해당하는 object store생성.키패스:id
-      var store = db.createObjectStore("todo1",
-        {keyPath: "id"});
+      var store = db.createObjectStore("todo1", {keyPath: "id"});
+      var store2 = db.createObjectStore("todo2",{keyPath: "id"});
+      var store3 = db.createObjectStore("todo3", {keyPath: "id"});
+      var store4 = db.createObjectStore("todo4", {keyPath: "id"});
       
-      var store2 = db.createObjectStore("todo2",
-    		  {keyPath: "id"});
-      
-      var infoStore = db.createObjectStore("info",
-    		  {keyPath: "nickname"});
+      var infoStore = db.createObjectStore("info", {keyPath: "nickname"});
       
       const infoData = [{nickname:"Jay", point:0}];
       infoStore.createIndex("point","point",{unique:false});
@@ -238,6 +242,8 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   var todoCtr = this;
   this.todos=[];
   this.todos2=[];
+  this.todos3=[];
+  this.todos4=[];
   
   this.level = 3;
   this.point;
@@ -279,10 +285,11 @@ app.controller('TodoController', function($window, indexedDBDataCon){
     });
   };
 
-  //새로운거
+  //리스트2
   todoCtr.refreshList2 = function(){
 	  indexedDBDataCon.getTodos(2).then(function(data){
 		  todoCtr.todos2=data;
+		  console.log(data);
 	  }, function(err){
 		  $window.alert(err);
 	  });
@@ -315,14 +322,90 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
   };
-  function init(){
-    indexedDBDataCon.open().then(function(){
-      todoCtr.refreshList();
-      todoCtr.refreshList2();
-    });
-  }
+  //리스트3
+  todoCtr.refreshList3 = function(){
+	  indexedDBDataCon.getTodos(3).then(function(data){
+		  todoCtr.todos3=data;
+	  }, function(err){
+		  $window.alert(err);
+	  });
+	  indexedDBDataCon.getInfo().then(function(data){
+		  todoCtr.point= data;
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
   
-  init();
+  todoCtr.addTodo3 = function(){
+	  indexedDBDataCon.addTodo(todoCtr.todoText3, 3).then(function(){
+		  todoCtr.refreshList3();
+		  todoCtr.todoText3="";
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
+  
+  todoCtr.deleteTodo3 = function(id){
+	  indexedDBDataCon.addInfo().then(function(){
+		  todoCtr.refreshList3();
+	  }, function(err){
+		  $window.alert(err);
+	  });
+	  
+	  indexedDBDataCon.deleteTodo(id, 3).then(function(){
+		  todoCtr.refreshList3();
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
+  //리스트4
+  todoCtr.refreshList4 = function(){
+	  indexedDBDataCon.getTodos(4).then(function(data){
+		  todoCtr.todos4=data;
+		  console.log(data);
+	  }, function(err){
+		  $window.alert(err);
+	  });
+	  indexedDBDataCon.getInfo().then(function(data){
+		  todoCtr.point= data;
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
+  
+  todoCtr.addTodo4 = function(){
+	  indexedDBDataCon.addTodo(todoCtr.todoText4, 4).then(function(){
+		  todoCtr.refreshList4();
+		  todoCtr.todoText4="";
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
+  
+  todoCtr.deleteTodo4 = function(id){
+	  indexedDBDataCon.addInfo().then(function(){
+		  todoCtr.refreshList4();
+	  }, function(err){
+		  $window.alert(err);
+	  });
+	  
+	  indexedDBDataCon.deleteTodo(id, 4).then(function(){
+		  todoCtr.refreshList4();
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
+
+	function init(){
+		indexedDBDataCon.open().then(function(){
+			todoCtr.refreshList();
+			todoCtr.refreshList2();
+		    todoCtr.refreshList3();
+		    todoCtr.refreshList4();
+		});
+	}
+
+init();
 });
 
 

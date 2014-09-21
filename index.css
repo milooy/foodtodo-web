@@ -61,32 +61,24 @@ header {
 }
 
 .category:nth-child(1) {
-	left: 30px;
+	left: 65px;
 }
 .category:nth-child(2) {
-	left: 300px;
+	left: 370px;
 	
 }
 .category:nth-child(3) {
-	left: 700px;
+	left: 670px;
 }
 .category:nth-child(4) {
-	left: 900px;
+	left: 980px;
 }
 
-#todoCtr {
-	margin: 300px 0 0 30px;
+.todoCtrl {
+	margin: 300px 20px 0 60px;
 	overflow: scroll;
 	height: 60%;
 	display:inline-block;
-}
-
-#todoCtr2 {
-	margin: 300px 0 0 30px;
-	overflow: scroll;
-	height: 60%;
-	display:inline-block;
-	
 }
 
 
