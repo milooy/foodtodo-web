@@ -7,6 +7,8 @@ app.factory('indexedDBDataCon', function($window, $q){
   var db=null;
   var lastIndex=0;
   
+  var curPoint=0;
+  
   /////오픈///// 	
   var open = function(){
     var deferred = $q.defer();//$q 사용하기
@@ -27,11 +29,14 @@ app.factory('indexedDBDataCon', function($window, $q){
       var store = db.createObjectStore("todo",
         {keyPath: "id"});
       
-      const infoData = [{nickname:"Jay", level:2, point:35}];
-      store.createIndex("level","level",{unique:false});
-      store.createIndex("point","point",{unique:false});
-      store.add(infoData[0]);
-      alert(infoData[0]);
+      var store2 = db.createObjectStore("info",
+    		  {keyPath: "nickname"});
+      
+      const infoData = [{nickname:"Jay", point:35}];
+      store2.createIndex("point","point",{unique:false});
+      store2.add(infoData[0]);
+      console.log("open");
+      
     };
   
     request.onsuccess = function(e) {
@@ -44,6 +49,61 @@ app.factory('indexedDBDataCon', function($window, $q){
     };
     
     return deferred.promise;
+  };
+  
+  ////get Info/////
+  var getInfo = function(){
+	  var deferred = $q.defer();
+	  
+	  if(db === null){
+		  deferred.reject();
+	  } else{
+		  //디비에 데이터 쓰기 
+		  //db에서 일어나는 모든 변경은 transaction안에서 일어남 
+		  var trans = db.transaction(["info"], "readwrite");//읽고쓰기 가능한 todo transaction생성
+		  var store = trans.objectStore("info");//todo transaction안에 todo objectstore만들기
+		  var infos = [];//todo들 들어가있는 배열
+		  
+		  
+		  var request = store.get("Jay");
+//		  var request = store.delete("Jay");
+//		  var request3 = store.add(infoData[0]);
+		 
+		  
+		  //스토어에 있는거 다 가져오기
+		  var keyRange = IDBKeyRange.lowerBound(0);
+		  var cursorRequest = store.openCursor(keyRange);
+		  /*
+		  for (var i in infoData) {
+			  var request = store.add(infoData[i]);
+			  request.onsuccess = function(event) {
+			    // event.target.result == customerData[i].ssn
+				  var result = e.target.result;
+				  var point = request.result.point;
+				  console.log("@@getInfo");
+				  console.log("point is " + point);
+			  };
+			}
+			*/
+		  
+		  
+		  request.onsuccess = function(e) {
+			  var result = e.target.result;
+			  curPoint = request.result.point;
+			  console.log("@@getInfo");
+			  console.log("point is " + request.result.point);
+			  deferred.resolve(curPoint);
+		  };
+		  
+		  request.onerror = function(e){
+			  console.log(e.value);
+			  deferred.reject("Get Todo 문제");
+		  };
+		  
+		  
+	  }
+	  
+	  return deferred.promise;
   };
   
   ////get Todos/////
@@ -104,7 +164,7 @@ app.factory('indexedDBDataCon', function($window, $q){
     else{
       var trans = db.transaction(["todo"], "readwrite"); //디비에 뭔 짓 하기 전에 transaction시작해야함. todo오브젝트스토어로부터 만듦 
       var store = trans.objectStore("todo"); //todo옵젝스토어 빼옴 
-    
+      
       var request = store.delete(id); //todo 옵젝스토어에서 id값으로 지우는 리퀘스트 생성  
     
       request.onsuccess = function(e) {
@@ -118,6 +178,61 @@ app.factory('indexedDBDataCon', function($window, $q){
     }
     
     return deferred.promise;
+  };
+  
+  /////Info 추가//////
+  var addInfo= function(){ //인자는 todoText 
+	  var deferred = $q.defer();
+	  
+	  if(db === null){
+		  deferred.reject();
+	  } else{
+		  //디비에 데이터 쓰기 
+		  //db에서 일어나는 모든 변경은 transaction안에서 일어남 
+		  var trans = db.transaction(["info"], "readwrite");//읽고쓰기 가능한 todo transaction생성
+		  var store = trans.objectStore("info");//todo transaction안에 todo objectstore만들기
+		  var infos = [];//todo들 들어가있는 배열
+		  
+		  
+		  const infoData = [{nickname:"Jay", point:curPoint+1}];
+		  var request = store.put(infoData[0]);
+		  console.log(infoData[0]);
+//		  var request = store.delete("Jay");
+//		  var request3 = store.add(infoData[0]);
+		 
+		  
+		  //스토어에 있는거 다 가져오기
+		  var keyRange = IDBKeyRange.lowerBound(0);
+		  var cursorRequest = store.openCursor(keyRange);
+		  /*
+		  for (var i in infoData) {
+			  var request = store.add(infoData[i]);
+			  request.onsuccess = function(event) {
+			    // event.target.result == customerData[i].ssn
+				  var result = e.target.result;
+				  var point = request.result.point;
+				  console.log("@@getInfo");
+				  console.log("point is " + point);
+			  };
+			}
+			*/
+		  
+		  
+		  request.onsuccess = function(e) {
+			  var result = e.target.result;
+//			  var point = request.result.point;
+			  console.log("@@getInfo222" + curPoint++);
+			  curPoint++;
+		  };
+		  
+		  request.onerror = function(e){
+			  console.log(e.value);
+			  deferred.reject("Get Todo 문제");
+		  };
+		  
+	  }
+	  
+	  return deferred.promise;
   };
   
   /////Todo 추가//////
@@ -142,17 +257,19 @@ app.factory('indexedDBDataCon', function($window, $q){
     
       request.onerror = function(e) {
         console.log(e.value);
-        deferred.reject("Todo item couldn't be added!");
+        deferred.reject("Todo add문제");
       };
     }
     return deferred.promise;
   };
   
   return {
-    open: open,
-    getTodos: getTodos,
-    addTodo: addTodo,
-    deleteTodo: deleteTodo
+	  open: open,
+	  getTodos: getTodos,
+	  getInfo: getInfo,
+	  addTodo: addTodo,
+	  addInfo: addInfo,
+	  deleteTodo: deleteTodo
   };
   
 });
@@ -165,14 +282,19 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   this.todos=[];
   
   this.level = 3;
-  this.point = 22;
+  this.point;
   this.levelPoint = 50;
   
   todoCtr.refreshList = function(){
     indexedDBDataCon.getTodos().then(function(data){
-      todoCtr.todos=data;
+    	todoCtr.todos=data;
     }, function(err){
-      $window.alert(err);
+    	$window.alert(err);
+    });
+    indexedDBDataCon.getInfo().then(function(data){
+      todoCtr.point= data;
+    }, function(err){
+    	$window.alert(err);
     });
   };
   
@@ -186,7 +308,12 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   };
   
   todoCtr.deleteTodo = function(id){
-	this.point++;
+	indexedDBDataCon.addInfo().then(function(){
+		todoCtr.refreshList();
+	}, function(err){
+		$window.alert(err);
+	});
+	
     indexedDBDataCon.deleteTodo(id).then(function(){
       todoCtr.refreshList();
     }, function(err){
