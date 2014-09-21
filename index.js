@@ -12,12 +12,16 @@ app.factory('indexedDBDataCon', function($window, $q){
   /////오픈///// 	
   var open = function(){
     var deferred = $q.defer();//$q 사용하기
-    var version = 5;
+    var version = 2;
     var request = indexedDB.open("todoData", version);//디비 만들or열기
+    var yourNickname;
   
     //db를 만들거나 업데이트하기 
     request.onupgradeneeded = function(e) {
-      db = e.target.result;//디비에 리절트 넣어줌
+    	yourNickname = prompt("분양받을 투두몬의 이름을 입력해주세요!");
+    	alert("안녕하세요 " + yourNickname+ "님, 푸드투두를 시작해봐요^^!");
+
+    	db = e.target.result;//디비에 리절트 넣어줌
   
       e.target.transaction.onerror = indexedDB.onerror;
   
@@ -45,8 +49,9 @@ app.factory('indexedDBDataCon', function($window, $q){
       
       var infoStore = db.createObjectStore("info", {keyPath: "nickname"});
       
-      const infoData = [{nickname:"Jay", point:0}];
+      const infoData = [{nickname:"Jay", point:0, yourNickname:yourNickname}];
       infoStore.createIndex("point","point",{unique:false});
+      infoStore.createIndex("yourNickname","yourNickname",{unique:false});
       infoStore.add(infoData[0]);
       console.log("open");
       
@@ -117,11 +122,16 @@ app.factory('indexedDBDataCon', function($window, $q){
 		  var trans = db.transaction(["info"], "readwrite");
 		  var store = trans.objectStore("info");
 		  var request = store.get("Jay");
+		  
+		  var infos = [];
 		 
 		  request.onsuccess = function(e) {
 			  var result = e.target.result;
 			  curPoint = request.result.point;
-			  deferred.resolve(curPoint);
+			  yourNickname = request.result.yourNickname;
+			  infos[0] = curPoint;
+			  infos[1] = yourNickname;
+			  deferred.resolve(infos);
 		  };
 		  
 		  request.onerror = function(e){
@@ -176,7 +186,7 @@ app.factory('indexedDBDataCon', function($window, $q){
 		  var infos = [];//todo들 들어가있는 배열
 		  
 		  
-		  const infoData = [{nickname:"Jay", point:curPoint+1}];
+		  const infoData = [{nickname:"Jay", point:curPoint+1, yourNickname:yourNickname}];
 		  var request = store.put(infoData[0]);
 		 
 		  //스토어에 있는거 다 가져오기
@@ -248,6 +258,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   this.level = 3;
   this.point;
   this.levelPoint = 50;
+  this.nickname;
   
   todoCtr.refreshList = function(){
     indexedDBDataCon.getTodos(1).then(function(data){
@@ -256,7 +267,8 @@ app.controller('TodoController', function($window, indexedDBDataCon){
     	$window.alert(err);
     });
     indexedDBDataCon.getInfo().then(function(data){
-      todoCtr.point= data;
+      todoCtr.point= data[0];
+      todoCtr.nickname= data[1];
     }, function(err){
     	$window.alert(err);
     });
@@ -294,7 +306,8 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data;
+		  todoCtr.point= data[0];
+		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
 	  });
@@ -330,7 +343,8 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data;
+		  todoCtr.point= data[0];
+		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
 	  });
@@ -367,7 +381,8 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data;
+		  todoCtr.point= data[0];
+		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
 	  });
