@@ -12,7 +12,7 @@ app.factory('indexedDBDataCon', function($window, $q){
   /////오픈///// 	
   var open = function(){
     var deferred = $q.defer();//$q 사용하기
-    var version = 1;
+    var version = 3;
     var request = indexedDB.open("todoData", version);//디비 만들or열기
   
     //db를 만들거나 업데이트하기 
@@ -21,20 +21,23 @@ app.factory('indexedDBDataCon', function($window, $q){
   
       e.target.transaction.onerror = indexedDB.onerror;
   
-      if(db.objectStoreNames.contains("todo")) {
-        db.deleteObjectStore("todo");
+      if(db.objectStoreNames.contains("todo1")) {
+        db.deleteObjectStore("todo1");
       }
       
       //투두에 해당하는 object store생성.키패스:id
-      var store = db.createObjectStore("todo",
+      var store = db.createObjectStore("todo1",
         {keyPath: "id"});
       
-      var store2 = db.createObjectStore("info",
+      var store2 = db.createObjectStore("todo2",
+    		  {keyPath: "id"});
+      
+      var infoStore = db.createObjectStore("info",
     		  {keyPath: "nickname"});
       
       const infoData = [{nickname:"Jay", point:35}];
-      store2.createIndex("point","point",{unique:false});
-      store2.add(infoData[0]);
+      infoStore.createIndex("point","point",{unique:false});
+      infoStore.add(infoData[0]);
       console.log("open");
       
     };
@@ -51,81 +54,20 @@ app.factory('indexedDBDataCon', function($window, $q){
     return deferred.promise;
   };
   
-  ////get Info/////
-  var getInfo = function(){
-	  var deferred = $q.defer();
-	  
-	  if(db === null){
-		  deferred.reject();
-	  } else{
-		  //디비에 데이터 쓰기 
-		  //db에서 일어나는 모든 변경은 transaction안에서 일어남 
-		  var trans = db.transaction(["info"], "readwrite");//읽고쓰기 가능한 todo transaction생성
-		  var store = trans.objectStore("info");//todo transaction안에 todo objectstore만들기
-		  var infos = [];//todo들 들어가있는 배열
-		  
-		  
-		  var request = store.get("Jay");
-//		  var request = store.delete("Jay");
-//		  var request3 = store.add(infoData[0]);
-		 
-		  
-		  //스토어에 있는거 다 가져오기
-		  var keyRange = IDBKeyRange.lowerBound(0);
-		  var cursorRequest = store.openCursor(keyRange);
-		  /*
-		  for (var i in infoData) {
-			  var request = store.add(infoData[i]);
-			  request.onsuccess = function(event) {
-			    // event.target.result == customerData[i].ssn
-				  var result = e.target.result;
-				  var point = request.result.point;
-				  console.log("@@getInfo");
-				  console.log("point is " + point);
-			  };
-			}
-			*/
-		  
-		  
-		  request.onsuccess = function(e) {
-			  var result = e.target.result;
-			  curPoint = request.result.point;
-			  console.log("@@getInfo");
-			  console.log("point is " + request.result.point);
-			  deferred.resolve(curPoint);
-		  };
-		  
-		  request.onerror = function(e){
-			  console.log(e.value);
-			  deferred.reject("Get Todo 문제");
-		  };
-		  
-		  
-	  }
-	  
-	  return deferred.promise;
-  };
-  
   ////get Todos/////
-  var getTodos = function(){
+  var getTodos = function(category){
     var deferred = $q.defer();
+    var myStore = "todo"+category;
     
     if(db === null){
       deferred.reject();
     } else{
       //디비에 데이터 쓰기 
       //db에서 일어나는 모든 변경은 transaction안에서 일어남 
-      var trans = db.transaction(["todo"], "readwrite");//읽고쓰기 가능한 todo transaction생성
-      var store = trans.objectStore("todo");//todo transaction안에 todo objectstore만들기
+      var trans = db.transaction([myStore.toString()], "readwrite");//읽고쓰기 가능한 todo transaction생성
+      var store = trans.objectStore(myStore.toString());//todo transaction안에 todo objectstore만들기
       var todos = [];//todo들 들어가있는 배열
-      
-      /*
-      var request = store.get("Jay");
-      request.onsuccess= function(event) {
-//    	  alert("level: " + request.result.level);
-      }
-      */
-    
+
       //스토어에 있는거 다 가져오기
       var keyRange = IDBKeyRange.lowerBound(0);
       var cursorRequest = store.openCursor(keyRange);
@@ -154,16 +96,46 @@ app.factory('indexedDBDataCon', function($window, $q){
     return deferred.promise;
   };
   
+  
+  ////get Info/////
+  var getInfo = function(){
+	  var deferred = $q.defer();
+	  
+	  if(db === null){
+		  deferred.reject();
+	  } else{
+		  var trans = db.transaction(["info"], "readwrite");
+		  var store = trans.objectStore("info");
+		  var request = store.get("Jay");
+		 
+		  request.onsuccess = function(e) {
+			  var result = e.target.result;
+			  curPoint = request.result.point;
+			  deferred.resolve(curPoint);
+		  };
+		  
+		  request.onerror = function(e){
+			  console.log(e.value);
+			  deferred.reject("Get Info 문제");
+		  };
+		  
+		  
+	  }
+	  
+	  return deferred.promise;
+  };
+  
   /////Todo지우기/////
-  var deleteTodo = function(id){ //인자는 id 
+  var deleteTodo = function(id, category){ //인자는 id 
     var deferred = $q.defer();
+    var myStore = "todo"+category;
     
     if(db === null){
       deferred.reject();
     }
     else{
-      var trans = db.transaction(["todo"], "readwrite"); //디비에 뭔 짓 하기 전에 transaction시작해야함. todo오브젝트스토어로부터 만듦 
-      var store = trans.objectStore("todo"); //todo옵젝스토어 빼옴 
+      var trans = db.transaction([myStore.toString()], "readwrite"); //디비에 뭔 짓 하기 전에 transaction시작해야함. todo오브젝트스토어로부터 만듦 
+      var store = trans.objectStore(myStore.toString()); //todo옵젝스토어 빼옴 
       
       var request = store.delete(id); //todo 옵젝스토어에서 id값으로 지우는 리퀘스트 생성  
     
@@ -196,33 +168,13 @@ app.factory('indexedDBDataCon', function($window, $q){
 		  
 		  const infoData = [{nickname:"Jay", point:curPoint+1}];
 		  var request = store.put(infoData[0]);
-		  console.log(infoData[0]);
-//		  var request = store.delete("Jay");
-//		  var request3 = store.add(infoData[0]);
 		 
-		  
 		  //스토어에 있는거 다 가져오기
 		  var keyRange = IDBKeyRange.lowerBound(0);
 		  var cursorRequest = store.openCursor(keyRange);
-		  /*
-		  for (var i in infoData) {
-			  var request = store.add(infoData[i]);
-			  request.onsuccess = function(event) {
-			    // event.target.result == customerData[i].ssn
-				  var result = e.target.result;
-				  var point = request.result.point;
-				  console.log("@@getInfo");
-				  console.log("point is " + point);
-			  };
-			}
-			*/
-		  
 		  
 		  request.onsuccess = function(e) {
 			  var result = e.target.result;
-//			  var point = request.result.point;
-			  console.log("@@getInfo222" + curPoint++);
-			  curPoint++;
 		  };
 		  
 		  request.onerror = function(e){
@@ -236,15 +188,16 @@ app.factory('indexedDBDataCon', function($window, $q){
   };
   
   /////Todo 추가//////
-  var addTodo = function(todoText){ //인자는 todoText 
+  var addTodo = function(todoText, category){ //인자는 todoText 
     var deferred = $q.defer();
+    var myStore = "todo"+category;
     
     if(db === null){
       deferred.reject();
     }
     else{
-      var trans = db.transaction(["todo"], "readwrite");
-      var store = trans.objectStore("todo");
+      var trans = db.transaction([myStore.toString()], "readwrite");
+      var store = trans.objectStore(myStore.toString());
       lastIndex++; //맨마지막에 하나 키워서 거기다가 집어넣음
       var request = store.put({
         "id": lastIndex,
@@ -275,18 +228,17 @@ app.factory('indexedDBDataCon', function($window, $q){
 });
 
 
-
-
 app.controller('TodoController', function($window, indexedDBDataCon){
   var todoCtr = this;
   this.todos=[];
+  this.todos2=[];
   
   this.level = 3;
   this.point;
   this.levelPoint = 50;
   
   todoCtr.refreshList = function(){
-    indexedDBDataCon.getTodos().then(function(data){
+    indexedDBDataCon.getTodos(1).then(function(data){
     	todoCtr.todos=data;
     }, function(err){
     	$window.alert(err);
@@ -299,7 +251,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   };
   
   todoCtr.addTodo = function(){
-    indexedDBDataCon.addTodo(todoCtr.todoText).then(function(){
+    indexedDBDataCon.addTodo(todoCtr.todoText, 1).then(function(){
       todoCtr.refreshList();
       todoCtr.todoText="";
     }, function(err){
@@ -314,16 +266,53 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		$window.alert(err);
 	});
 	
-    indexedDBDataCon.deleteTodo(id).then(function(){
+    indexedDBDataCon.deleteTodo(id, 1).then(function(){
       todoCtr.refreshList();
     }, function(err){
       $window.alert(err);
     });
   };
+
+  //새로운거
+  todoCtr.refreshList2 = function(){
+	  indexedDBDataCon.getTodos(2).then(function(data){
+		  todoCtr.todos2=data;
+	  }, function(err){
+		  $window.alert(err);
+	  });
+	  indexedDBDataCon.getInfo().then(function(data){
+		  todoCtr.point= data;
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
   
+  todoCtr.addTodo2 = function(){
+	  indexedDBDataCon.addTodo(todoCtr.todoText2, 2).then(function(){
+		  todoCtr.refreshList2();
+		  todoCtr.todoText2="";
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
+  
+  todoCtr.deleteTodo2 = function(id){
+	  indexedDBDataCon.addInfo().then(function(){
+		  todoCtr.refreshList2();
+	  }, function(err){
+		  $window.alert(err);
+	  });
+	  
+	  indexedDBDataCon.deleteTodo(id, 2).then(function(){
+		  todoCtr.refreshList2();
+	  }, function(err){
+		  $window.alert(err);
+	  });
+  };
   function init(){
     indexedDBDataCon.open().then(function(){
       todoCtr.refreshList();
+//      todoCtr.refreshList2();
     });
   }
   

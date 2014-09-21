@@ -37,14 +37,15 @@
 		</div>
 	</div>
 	<div id="todoCtr2">
+		<input type="button" value="Refresh" data-ng-click="todoCtr.refreshList2()" /> <br />
 		<div class="todoWrite">
-			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="라랄?"/> 
-			<input class="todoWriteBtn" type="button" value="Add" data-ng-click="todoCtr.addTodo()" /> 
+			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText2" name="todo" placeholder="라랄?"/> 
+			<input class="todoWriteBtn" type="button" value="Add" data-ng-click="todoCtr.addTodo2()" /> 
 		</div>
 		
-		<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
-			<div class="todoText">{{todo.text}}</div>
-			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo(todo.id)">X</a>]</div>
+		<div data-ng-repeat="todo in todoCtr.todos2" class="todoTable">
+			<div class="todoText2">{{todo.text}}</div>
+			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo2(todo.id)">X</a>]</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="index.js"></script>
