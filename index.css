@@ -34,7 +34,7 @@ header {
 	position:fixed;
 	top:51px;
 	left:61px;
-	font-family: 'Gochi Hand', cursive;
+	font-family: 'Gochi Hand', cursive, "Nanum Gothic", sans-serif;
 	font-size: 16pt;
 	color: #9a8a7b;
 }

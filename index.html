@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link href='http://fonts.googleapis.com/css?family=Permanent+Marker|Delius+Unicase:700' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+<link href="favicon.ico” rel="shortcut icon"/> 
 <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="inputReset.css">
 </head>
@@ -37,7 +38,7 @@
 		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br /> -->
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="다가오는일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn1').click();}"/> 
-			<img id="addBtn1" class="todoWriteBtn" data-ng-click="todoCtr.addTodo()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			<img id="addBtn1" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
 		</div>
 		
 		<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
@@ -49,7 +50,7 @@
 		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList2()" /> <br /> -->
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText2" name="todo" placeholder="오늘할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn2').click();}"/> 
-			<img id="addBtn2" class="todoWriteBtn" data-ng-click="todoCtr.addTodo2()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			<img id="addBtn2" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo2()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
 		</div>
 		
 		<div data-ng-repeat="todo in todoCtr.todos2" class="todoTable">
@@ -61,7 +62,7 @@
 		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList3()" /> <br /> -->
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText3" name="todo" placeholder="이번주할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn3').click();}"/> 
-			<img id="addBtn3" class="todoWriteBtn" data-ng-click="todoCtr.addTodo3()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			<img id="addBtn3" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo3()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
 		</div>
 		
 		<div data-ng-repeat="todo in todoCtr.todos3" class="todoTable">
@@ -73,7 +74,7 @@
 		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList4()" /> <br /> -->
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText4" name="todo" placeholder="언젠가할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn4').click();}"/> 
-			<img id="addBtn4" class="todoWriteBtn" data-ng-click="todoCtr.addTodo4()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			<img id="addBtn4" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo4()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
 		</div>
 		
 		<div data-ng-repeat="todo in todoCtr.todos4" class="todoTable">

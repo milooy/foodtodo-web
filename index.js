@@ -198,7 +198,6 @@ app.factory('indexedDBDataCon', function($window, $q){
 		  };
 		  
 		  request.onerror = function(e){
-			  console.log(e.value);
 			  deferred.reject("Get Todo 문제");
 		  };
 		  
@@ -229,7 +228,6 @@ app.factory('indexedDBDataCon', function($window, $q){
       };
     
       request.onerror = function(e) {
-        console.log(e.value);
         deferred.reject("Todo add문제");
       };
     }
@@ -301,7 +299,6 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   todoCtr.refreshList2 = function(){
 	  indexedDBDataCon.getTodos(2).then(function(data){
 		  todoCtr.todos2=data;
-		  console.log(data);
 	  }, function(err){
 		  $window.alert(err);
 	  });
@@ -376,7 +373,6 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   todoCtr.refreshList4 = function(){
 	  indexedDBDataCon.getTodos(4).then(function(data){
 		  todoCtr.todos4=data;
-		  console.log(data);
 	  }, function(err){
 		  $window.alert(err);
 	  });

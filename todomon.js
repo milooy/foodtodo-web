@@ -1,6 +1,6 @@
 /////todomon움직임/////
  var images = {};
- var totalResources = 3;
+ var totalResources = 5;
  var numResourcesLoaded = 0;
  var fps = 30;
  
@@ -13,6 +13,8 @@
  loadImage("todomon-body");
  loadImage("todomon-leg");
  loadImage("doughnut");
+ loadImage("happyEyes");
+ loadImage("heart");
  
  function loadImage(name) {
 	 images[name] = new Image();
@@ -36,11 +38,13 @@
 	 var y = charY;
 	 
 	 canvas.width = canvas.width; //canvas초기화 
+	 context.drawImage(images["heart"], x-35 - curHeartY, y+1 - breathAmt );
 	 context.drawImage(images["todomon-leg"], x, y+140);
 	 context.drawImage(images["todomon-body"], x, y - breathAmt);
 	 
 	 drawEllipse(x+56, y+40 - breathAmt, 30, curEyeHeight); //왼쪽눈 
 	 drawEllipse(x+77, y+40 - breathAmt, 30, curEyeHeight); //오른쪽눈 
+	 context.drawImage(images["happyEyes"], x-1, y+1 - breathAmt - maxHappyHeight);
 	 drawMouth(context, x+20, y+50- breathAmt, curMouthHeight);
 	 context.drawImage(images["doughnut"], x+20,y-70-curDoughnutHeight);
 	 
@@ -134,13 +138,15 @@
  var curMouthHeight = maxMouthHeight;
  var maxDoughnutHeight = 0;
  var curDoughnutHeight = maxDoughnutHeight;
+ var curHappyHeight;
+ var maxHappyHeight = 80;
  function eatTodo(id) {
-//	 var deleteBtn = document.getElementsByClassName('todoDelete');
-//	 var blinkMouthTimer = setInterval(blinkMouth, 1000);
-	 console.log(id);
-//	 $(this).fadeOut();
 	 eatDoughnut();
-	 setTimeout(goBlinkMouth, 500);
+	 setTimeout(setHappyHeight0, 200);
+	 setTimeout(goBlinkMouth, 400);
+	 setTimeout(setHappyHeight, 1000);
+//	 setTimeout(letsHeart, 400);
+	 
  }
  
  function blinkMouth() {
@@ -165,6 +171,29 @@
 		 curDoughnutHeight = maxDoughnutHeight;
 	 } else {
 		 setTimeout(eatDoughnut, 1);
+	 }
+ }
+ 
+ function setHappyHeight0() {
+	 maxHappyHeight = 0;
+ }
+ 
+ function setHappyHeight() {
+	 maxHappyHeight = 80;
+ }
+ 
+ var maxHeartY = 0;
+ var curHeartY = maxHeartY;
+ 
+ function letsHeart(){
+	 setHeart();
+ }
+ function setHeart(){
+	 curHeartY -=1;
+	 if(curHeartY <=-50) {
+		 curHeartY = maxHeartY;
+	 } else {
+		 setTimeout(setHeart, 10);
 	 }
  }
  
