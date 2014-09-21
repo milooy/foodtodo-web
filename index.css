@@ -52,7 +52,17 @@ header {
 	margin: 300px 0 0 30px;
 	overflow: scroll;
 	height: 60%;
+	display:inline-block;
 }
+
+#todoCtr2 {
+	margin: 300px 0 0 30px;
+	overflow: scroll;
+	height: 60%;
+	display:inline-block;
+	
+}
+
 
 .todoTable {
 	background-color: white;

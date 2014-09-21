@@ -1,4 +1,4 @@
-//전체 모듈은 app에 담고 이름은 myIndexDB
+//전체 모듈은 app에 담고 이름은 foodTodoWeb
 var app = angular.module('foodTodoWeb', []);
 
 //팩토리. 서비스의 종류. 어떤 객체 리턴 전에 몇가지 코드 실행가능한 공간 제공 
@@ -26,6 +26,12 @@ app.factory('indexedDBDataCon', function($window, $q){
       //투두에 해당하는 object store생성.키패스:id
       var store = db.createObjectStore("todo",
         {keyPath: "id"});
+      
+      const infoData = [{nickname:"Jay", level:2, point:35}];
+      store.createIndex("level","level",{unique:false});
+      store.createIndex("point","point",{unique:false});
+      store.add(infoData[0]);
+      alert(infoData[0]);
     };
   
     request.onsuccess = function(e) {
@@ -45,12 +51,20 @@ app.factory('indexedDBDataCon', function($window, $q){
     var deferred = $q.defer();
     
     if(db === null){
-      deferred.reject("IndexDB is not opened yet!");
+      deferred.reject();
     } else{
       //디비에 데이터 쓰기 
+      //db에서 일어나는 모든 변경은 transaction안에서 일어남 
       var trans = db.transaction(["todo"], "readwrite");//읽고쓰기 가능한 todo transaction생성
       var store = trans.objectStore("todo");//todo transaction안에 todo objectstore만들기
       var todos = [];//todo들 들어가있는 배열
+      
+      /*
+      var request = store.get("Jay");
+      request.onsuccess= function(event) {
+//    	  alert("level: " + request.result.level);
+      }
+      */
     
       //스토어에 있는거 다 가져오기
       var keyRange = IDBKeyRange.lowerBound(0);
@@ -63,7 +77,7 @@ app.factory('indexedDBDataCon', function($window, $q){
           deferred.resolve(todos);
         }
         else{
-          todos.push(result.value);
+          todos.push(result.value); //todo 배열에 result.value를 넣어준다. 
           if(result.value.id > lastIndex){
             lastIndex=result.value.id;
           }
@@ -73,7 +87,7 @@ app.factory('indexedDBDataCon', function($window, $q){
     
       cursorRequest.onerror = function(e){
         console.log(e.value);
-        deferred.reject("Something went wrong!!!");
+        deferred.reject("Get Todo 문제");
       };
     }
     
@@ -81,25 +95,25 @@ app.factory('indexedDBDataCon', function($window, $q){
   };
   
   /////Todo지우기/////
-  var deleteTodo = function(id){
+  var deleteTodo = function(id){ //인자는 id 
     var deferred = $q.defer();
     
     if(db === null){
-      deferred.reject("IndexDB is not opened yet!");
+      deferred.reject();
     }
     else{
-      var trans = db.transaction(["todo"], "readwrite");
-      var store = trans.objectStore("todo");
+      var trans = db.transaction(["todo"], "readwrite"); //디비에 뭔 짓 하기 전에 transaction시작해야함. todo오브젝트스토어로부터 만듦 
+      var store = trans.objectStore("todo"); //todo옵젝스토어 빼옴 
     
-      var request = store.delete(id);
+      var request = store.delete(id); //todo 옵젝스토어에서 id값으로 지우는 리퀘스트 생성  
     
       request.onsuccess = function(e) {
-        deferred.resolve();
+        deferred.resolve(); //request가 성공하면 resolve()
       };
     
       request.onerror = function(e) {
         console.log(e.value);
-        deferred.reject("Todo item couldn't be deleted");
+        deferred.reject("todo delete 문제");
       };
     }
     
@@ -107,16 +121,16 @@ app.factory('indexedDBDataCon', function($window, $q){
   };
   
   /////Todo 추가//////
-  var addTodo = function(todoText){
+  var addTodo = function(todoText){ //인자는 todoText 
     var deferred = $q.defer();
     
     if(db === null){
-      deferred.reject("IndexDB is not opened yet!");
+      deferred.reject();
     }
     else{
       var trans = db.transaction(["todo"], "readwrite");
       var store = trans.objectStore("todo");
-      lastIndex++;
+      lastIndex++; //맨마지막에 하나 키워서 거기다가 집어넣음
       var request = store.put({
         "id": lastIndex,
         "text": todoText
@@ -150,6 +164,10 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   var todoCtr = this;
   this.todos=[];
   
+  this.level = 3;
+  this.point = 22;
+  this.levelPoint = 50;
+  
   todoCtr.refreshList = function(){
     indexedDBDataCon.getTodos().then(function(data){
       todoCtr.todos=data;
@@ -168,6 +186,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   };
   
   todoCtr.deleteTodo = function(id){
+	this.point++;
     indexedDBDataCon.deleteTodo(id).then(function(){
       todoCtr.refreshList();
     }, function(err){
@@ -354,3 +373,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		 setTimeout(eatDoughnut, 1);
 	 }
  }
+ 
+ app.controller('InfoController', function(){
+	
+ });

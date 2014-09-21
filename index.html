@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="inputReset.css">
 </head>
-<body>
+<body data-ng-app="foodTodoWeb" data-ng-controller="TodoController as todoCtr">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.min.js"></script>
 	
 	<header>
@@ -16,15 +16,15 @@
 		<img class="flag" src="img/papyrus.png" />
 		<div class="todomonInfo">
 			<div class="nameInfo">율무</div>
-			<div class="level">LEVEL:{{info.level}}</div>
-			<div class="point">POINT:{{info.point}}/{{info.levelPoint}}</div>
+			<div class="level">LEVEL:{{todoCtr.level}}</div>
+			<div class="point">POINT:{{todoCtr.point}}/{{todoCtr.levelPoint}}</div>
 			<div class="hunger">HUNGER:35%</div>			
 		</div>
 		<div class="todomon">
 			<canvas id="canvas" width="230" height="230"></canvas>
 		</div>
 	</header>
-	<div data-ng-app="foodTodoWeb" data-ng-controller="TodoController as todoCtr" id="todoCtr">
+	<div id="todoCtr">
 		<input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br />
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="뭐해먹을래?"/> 
@@ -36,6 +36,18 @@
 			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo(todo.id)">X</a>]</div>
 		</div>
 	</div>
+	<div id="todoCtr2">
+		<div class="todoWrite">
+			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="라랄?"/> 
+			<input class="todoWriteBtn" type="button" value="Add" data-ng-click="todoCtr.addTodo()" /> 
+		</div>
+		
+		<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
+			<div class="todoText">{{todo.text}}</div>
+			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo(todo.id)">X</a>]</div>
+		</div>
+	</div>
 	<script type="text/javascript" src="index.js"></script>
+	<!-- <script type="text/javascript" src="myInfo.js"></script> -->
 </body>
 </html>

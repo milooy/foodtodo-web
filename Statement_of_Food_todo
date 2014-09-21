@@ -1,0 +1,16 @@
+<<To do>>
+- 먹으면 방방 뛰기 
+- point올리기
+- 진화
+- Check
+- 침떨어지기 
+- 모바일대응 
+
+
+<<Done>>
+- indexedDB로 Todo저장
+- Todo add
+- Todo delete
+- 몬스터 숨쉬기
+- 몬스터 윙크
+- 투두 지우면 몬스터가 먹기 
