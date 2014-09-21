@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>FOODTODO</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link href='http://fonts.googleapis.com/css?family=Permanent+Marker|Delius+Unicase:700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="inputReset.css">
 </head>
@@ -23,28 +24,34 @@
 		<div class="todomon">
 			<canvas id="canvas" width="230" height="230"></canvas>
 		</div>
+		<div class="categoryDiv">
+			<div class="category">UPCOMING</div>
+			<div class="category">TODAY</div>
+			<div class="category">WEEKLY</div>
+			<div class="category">SOMEDAY</div>
+		</div>
 	</header>
 	<div id="todoCtr">
-		<input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br />
+		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br /> -->
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="뭐해먹을래?"/> 
 			<input class="todoWriteBtn" type="button" value="Add" data-ng-click="todoCtr.addTodo()" /> 
 		</div>
 		
-		<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
+		<div data-ng-repeat="todo in todoCtr.todos| orderBy:'$index':true" class="todoTable">
 			<div class="todoText">{{todo.text}}</div>
 			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo(todo.id)">X</a>]</div>
 		</div>
 	</div>
 	<div id="todoCtr2">
-		<input type="button" value="Refresh" data-ng-click="todoCtr.refreshList2()" /> <br />
+		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList2()" /> <br /> -->
 		<div class="todoWrite">
 			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText2" name="todo" placeholder="라랄?"/> 
 			<input class="todoWriteBtn" type="button" value="Add" data-ng-click="todoCtr.addTodo2()" /> 
 		</div>
 		
 		<div data-ng-repeat="todo in todoCtr.todos2" class="todoTable">
-			<div class="todoText2">{{todo.text}}</div>
+			<div class="todoText">{{todo.text}}</div>
 			<div onclick="eatTodo()" class="todoDelete">[<a href="#" data-ng-click="todoCtr.deleteTodo2(todo.id)">X</a>]</div>
 		</div>
 	</div>

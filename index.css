@@ -8,6 +8,7 @@ html {
 body {
 	height: 100%; margin:0;
 	font-family: "Nanum Gothic", sans-serif;
+	-webkit-font-smoothing: antialiased;
 	font-size: 11pt;
     background: -webkit-linear-gradient(#fdd339, #eb9562); 
 	background: -o-linear-gradient(#fdd339, #eb9562); 
@@ -46,6 +47,31 @@ header {
 	position: fixed;
 	top:20px;
 	right: 40px;
+}
+
+.category {
+	position: fixed;
+	top:240px;
+	display: inline-block;
+	1background-color: white;
+	font-size: 30px;
+	color: white;
+	font-family: 'Permanent Marker', cursive;
+	font-weight: 400;
+}
+
+.category:nth-child(1) {
+	left: 30px;
+}
+.category:nth-child(2) {
+	left: 300px;
+	
+}
+.category:nth-child(3) {
+	left: 700px;
+}
+.category:nth-child(4) {
+	left: 900px;
 }
 
 #todoCtr {

@@ -41,7 +41,7 @@ app.factory('indexedDBDataCon', function($window, $q){
       var infoStore = db.createObjectStore("info",
     		  {keyPath: "nickname"});
       
-      const infoData = [{nickname:"Jay", point:35}];
+      const infoData = [{nickname:"Jay", point:0}];
       infoStore.createIndex("point","point",{unique:false});
       infoStore.add(infoData[0]);
       console.log("open");
