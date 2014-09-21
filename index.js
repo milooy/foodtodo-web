@@ -12,7 +12,7 @@ app.factory('indexedDBDataCon', function($window, $q){
   /////오픈///// 	
   var open = function(){
     var deferred = $q.defer();//$q 사용하기
-    var version = 3;
+    var version = 4;
     var request = indexedDB.open("todoData", version);//디비 만들or열기
   
     //db를 만들거나 업데이트하기 
@@ -23,6 +23,12 @@ app.factory('indexedDBDataCon', function($window, $q){
   
       if(db.objectStoreNames.contains("todo1")) {
         db.deleteObjectStore("todo1");
+      }
+      if(db.objectStoreNames.contains("todo2")) {
+    	  db.deleteObjectStore("todo2");
+      }
+      if(db.objectStoreNames.contains("info")) {
+    	  db.deleteObjectStore("info");
       }
       
       //투두에 해당하는 object store생성.키패스:id
@@ -312,7 +318,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   function init(){
     indexedDBDataCon.open().then(function(){
       todoCtr.refreshList();
-//      todoCtr.refreshList2();
+      todoCtr.refreshList2();
     });
   }
   
