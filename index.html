@@ -13,29 +13,14 @@
 <body data-ng-app="foodTodoWeb" data-ng-controller="TodoController as todoCtr">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script>
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId : 'your-app-id',
-				xfbml : true,
-				version : 'v2.1'
-			});
-		};
-
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {
-				return;
-			}
-			js = d.createElement(s);
-			js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
-
-
-
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.0";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 	<header>
 		<img src="img/web_header.png" />
 		<img class="logo" src="img/foodTodo_logo.png" />
@@ -105,6 +90,7 @@
 			<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo4(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
 		</div>
 	</div>
+	<div class="fb-like" data-href="http://milooy.github.io/foodtodo-web/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 	<script type="text/javascript" src="todomon.js"></script>
 	<script type="text/javascript" src="index.js"></script>
 	<!-- <script type="text/javascript" src="myInfo.js"></script> -->
