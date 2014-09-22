@@ -12,19 +12,19 @@
 </head>
 <body data-ng-app="foodTodoWeb" data-ng-controller="TodoController as todoCtr">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
+	<!-- <script>(function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
 	  if (d.getElementById(id)) return;
 	  js = d.createElement(s); js.id = id;
 	  js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.0";
 	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
+	}(document, 'script', 'facebook-jssdk'));</script> -->
 	<header>
 		<img src="img/web_header.png" />
 		<img class="logo" src="img/foodTodo_logo.png" />
 		<img class="flag" src="img/papyrus.png" />
+		<div id="myLevel"></div>
 		<div class="todomonInfo">
 			<div class="nameInfo">{{todoCtr.nickname}}</div>
 			<div class="level">● LEVEL :<a style="color:#685d4d;">{{todoCtr.level}}</a></div>
@@ -34,13 +34,14 @@
 		<div class="todomon">
 			<canvas id="canvas" width="230" height="230"></canvas>
 		</div>
-		<div class="fb-like" data-href="http://milooy.github.io/foodtodo-web/" data-width="200px" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+		<!-- <div class="fb-like" data-href="http://milooy.github.io/foodtodo-web/" data-width="200px" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div> -->
 		<div class="categoryDiv">
 			<div class="category">UPCOMING</div>
 			<div class="category">TODAY</div>
 			<div class="category">WEEKLY</div>
 			<div class="category">SOMEDAY</div>
 		</div>
+		<img id="resetBtn" onclick="reset()" src="img/reset.png" onmouseover='this.src="img/resetOn.png"' onmouseout='this.src="img/reset.png"'/>
 	</header>
 	<div id="todoCtr1" class="todoCtrl">
 		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br /> -->

@@ -245,7 +245,6 @@ app.factory('indexedDBDataCon', function($window, $q){
   
 });
 
-
 app.controller('TodoController', function($window, indexedDBDataCon){
   var todoCtr = this;
   this.todos=[];
@@ -253,7 +252,6 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   this.todos3=[];
   this.todos4=[];
 
-//  this.level;
   this.point;
   this.levelPoint = 50;
   this.nickname;
@@ -271,10 +269,13 @@ app.controller('TodoController', function($window, indexedDBDataCon){
       todoCtr.nickname= data[1];
       if(data[0]<50){
     	  todoCtr.level = 1;
+    	  document.getElementById("myLevel").innerHTML = 1; 
       }else if(data[0]>=50 && data[0]<100){
     	  todoCtr.level = 2;
+    	  document.getElementById("myLevel").innerHTML = 2; 
       }else {
     	  todoCtr.level = 3;
+    	  document.getElementById("myLevel").innerHTML = 3; 
       }
     }, function(err){
     	$window.alert(err);

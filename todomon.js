@@ -1,7 +1,7 @@
 
 /////todomon움직임/////
  var images = {};
- var totalResources = 5;
+ var totalResources = 6;
  var numResourcesLoaded = 0;
  var fps = 30;
  
@@ -10,8 +10,9 @@
  var charY = 20;
  
 
- 
+ console.log("mylevel: "+ this.myLevel);
  loadImage("todomon-body");
+ loadImage("todomon-body2");
  loadImage("todomon-leg");
  loadImage("doughnut");
  loadImage("happyEyes");
@@ -37,11 +38,17 @@
  function redraw() {
 	 var x = charX;
 	 var y = charY;
+	 var myLevel = document.getElementById("myLevel").innerHTML;
+
 	 
 	 canvas.width = canvas.width; //canvas초기화 
 	 context.drawImage(images["heart"], x-35 - curHeartY, y+1 - breathAmt );
 	 context.drawImage(images["todomon-leg"], x, y+140);
-	 context.drawImage(images["todomon-body"], x, y - breathAmt);
+	 if(myLevel==1){
+		 context.drawImage(images["todomon-body"], x, y - breathAmt);
+	 } else {
+		 context.drawImage(images["todomon-body2"], x, y - breathAmt);
+	 }
 	 
 	 drawEllipse(x+56, y+40 - breathAmt, 30, curEyeHeight); //왼쪽눈 
 	 drawEllipse(x+77, y+40 - breathAmt, 30, curEyeHeight); //오른쪽눈 
@@ -195,6 +202,16 @@
 		 curHeartY = maxHeartY;
 	 } else {
 		 setTimeout(setHeart, 10);
+	 }
+ }
+ 
+ function reset(){
+	 var r = confirm("모든 투두와 몬스터를 리셋하시겠어요?");
+	 if (r == true) {
+	     indexedDB.deleteDatabase('todoData');
+	     location.reload(true);
+	 } else {
+	     alert("헉헉 살아났다");
 	 }
  }
  
