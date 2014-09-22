@@ -138,7 +138,7 @@ header {
 	width: 30px;
 }
 
-.fb_iframe_widget {
+.fb-like {
 	position: fixed;
 	top: 200px;
 	right: 30px;
