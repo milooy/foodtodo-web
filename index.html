@@ -43,54 +43,57 @@
 		</div>
 		<img id="resetBtn" onclick="reset()" src="img/reset.png" onmouseover='this.src="img/resetOn.png"' onmouseout='this.src="img/reset.png"'/>
 	</header>
-	<div id="todoCtr1" class="todoCtrl">
-		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br /> -->
-		<div class="todoWrite">
-			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="다가오는일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn1').click();}"/> 
-			<img id="addBtn1" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+	<container>
+		<div id="todoCtr1" class="todoCtrl">
+			<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList()" /> <br /> -->
+			<div class="todoWrite">
+				<input class="todoForm" type="text" data-ng-model="todoCtr.todoText" name="todo" placeholder="다가오는일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn1').click();}"/> 
+				<img id="addBtn1" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			</div>
+			
+			<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
+				<div class="todoText">{{todo.text}}</div>
+				<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
+			</div>
 		</div>
-		
-		<div data-ng-repeat="todo in todoCtr.todos" class="todoTable">
-			<div class="todoText">{{todo.text}}</div>
-			<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
+		<div id="todoCtr2" class="todoCtrl">
+			<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList2()" /> <br /> -->
+			<div class="todoWrite">
+				<input class="todoForm" type="text" data-ng-model="todoCtr.todoText2" name="todo" placeholder="오늘할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn2').click();}"/> 
+				<img id="addBtn2" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo2()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			</div>
+			
+			<div data-ng-repeat="todo in todoCtr.todos2" class="todoTable">
+				<div class="todoText">{{todo.text}}</div>
+				<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo2(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
+			</div>
 		</div>
-	</div>
-	<div id="todoCtr2" class="todoCtrl">
-		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList2()" /> <br /> -->
-		<div class="todoWrite">
-			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText2" name="todo" placeholder="오늘할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn2').click();}"/> 
-			<img id="addBtn2" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo2()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+		<div id="todoCtr3" class="todoCtrl">
+			<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList3()" /> <br /> -->
+			<div class="todoWrite">
+				<input class="todoForm" type="text" data-ng-model="todoCtr.todoText3" name="todo" placeholder="이번주할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn3').click();}"/> 
+				<img id="addBtn3" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo3()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			</div>
+			
+			<div data-ng-repeat="todo in todoCtr.todos3" class="todoTable">
+				<div class="todoText">{{todo.text}}</div>
+				<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo3(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
+			</div>
 		</div>
-		
-		<div data-ng-repeat="todo in todoCtr.todos2" class="todoTable">
-			<div class="todoText">{{todo.text}}</div>
-			<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo2(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
+		<div id="todoCtr4" class="todoCtrl">
+			<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList4()" /> <br /> -->
+			<div class="todoWrite">
+				<input class="todoForm" type="text" data-ng-model="todoCtr.todoText4" name="todo" placeholder="언젠가할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn4').click();}"/> 
+				<img id="addBtn4" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo4()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
+			</div>
+			
+			<div data-ng-repeat="todo in todoCtr.todos4" class="todoTable">
+				<div class="todoText">{{todo.text}}</div>
+				<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo4(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
+			</div>
 		</div>
-	</div>
-	<div id="todoCtr3" class="todoCtrl">
-		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList3()" /> <br /> -->
-		<div class="todoWrite">
-			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText3" name="todo" placeholder="이번주할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn3').click();}"/> 
-			<img id="addBtn3" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo3()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
-		</div>
-		
-		<div data-ng-repeat="todo in todoCtr.todos3" class="todoTable">
-			<div class="todoText">{{todo.text}}</div>
-			<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo3(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
-		</div>
-	</div>
-	<div id="todoCtr4" class="todoCtrl">
-		<!-- <input type="button" value="Refresh" data-ng-click="todoCtr.refreshList4()" /> <br /> -->
-		<div class="todoWrite">
-			<input class="todoForm" type="text" data-ng-model="todoCtr.todoText4" name="todo" placeholder="언젠가할일" onKeydown="javascript:if(event.keyCode == 13) {document.getElementById('addBtn4').click();}"/> 
-			<img id="addBtn4" onclick="letsHeart()" class="todoWriteBtn" data-ng-click="todoCtr.addTodo4()" src="img/unadd.png" onmouseover='this.src="img/add.png"' onmouseout='this.src="img/unadd.png"'/> 
-		</div>
-		
-		<div data-ng-repeat="todo in todoCtr.todos4" class="todoTable">
-			<div class="todoText">{{todo.text}}</div>
-			<img class="check" onclick="eatTodo()" data-ng-click="todoCtr.deleteTodo4(todo.id)" class="check" src="img/uncheck.png" onmouseover='this.src="img/check.png"' onmouseout='this.src="img/uncheck.png"'/>
-		</div>
-	</div>
+	</container>
+	<footer id="copywrite">Copyright(c)2014 Jay Jin All rights reserved</footer>
 	<script type="text/javascript" src="todomon.js"></script>
 	<script type="text/javascript" src="index.js"></script>
 	<!-- <script type="text/javascript" src="myInfo.js"></script> -->
