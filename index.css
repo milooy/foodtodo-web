@@ -137,3 +137,9 @@ header {
 .check {
 	width: 30px;
 }
+
+.fb_iframe_widget {
+	position: fixed;
+	top: 200px;
+	right: 30px;
+}
