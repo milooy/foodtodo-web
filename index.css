@@ -140,6 +140,6 @@ header {
 
 .fb-like {
 	position: fixed !important;
-	top: 200px;
-	right: 0px;
+	bottom: 0px;
+	right: 5px;
 }
