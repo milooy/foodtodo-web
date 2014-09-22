@@ -139,7 +139,7 @@ header {
 }
 
 .fb-like {
-	position: fixed;
+	position: fixed !important;
 	top: 200px;
 	right: 0px;
 }
