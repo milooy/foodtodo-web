@@ -1,3 +1,4 @@
+
 /////todomon움직임/////
  var images = {};
  var totalResources = 5;

@@ -267,7 +267,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
     	$window.alert(err);
     });
     indexedDBDataCon.getInfo().then(function(data){
-      todoCtr.point= data[0];
+      todoCtr.point= data[0]%50;
       todoCtr.nickname= data[1];
       if(data[0]<50){
     	  todoCtr.level = 1;
@@ -312,7 +312,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data[0];
+		  todoCtr.point= data[0]%50;
 		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
@@ -349,7 +349,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data[0];
+		  todoCtr.point= data[0]%50;
 		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
@@ -386,7 +386,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data[0];
+		  todoCtr.point= data[0]%50;
 		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);

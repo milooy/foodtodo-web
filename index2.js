@@ -198,7 +198,6 @@ app.factory('indexedDBDataCon', function($window, $q){
 		  };
 		  
 		  request.onerror = function(e){
-			  console.log(e.value);
 			  deferred.reject("Get Todo 문제");
 		  };
 		  
@@ -229,7 +228,6 @@ app.factory('indexedDBDataCon', function($window, $q){
       };
     
       request.onerror = function(e) {
-        console.log(e.value);
         deferred.reject("Todo add문제");
       };
     }
@@ -254,11 +252,13 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   this.todos2=[];
   this.todos3=[];
   this.todos4=[];
-  
-  this.level = 3;
+
+//  this.level;
   this.point;
   this.levelPoint = 50;
   this.nickname;
+  
+
   
   todoCtr.refreshList = function(){
     indexedDBDataCon.getTodos(1).then(function(data){
@@ -267,8 +267,15 @@ app.controller('TodoController', function($window, indexedDBDataCon){
     	$window.alert(err);
     });
     indexedDBDataCon.getInfo().then(function(data){
-      todoCtr.point= data[0];
+      todoCtr.point= data[0]%50;
       todoCtr.nickname= data[1];
+      if(data[0]<50){
+    	  todoCtr.level = 1;
+      }else if(data[0]>=50 && data[0]<100){
+    	  todoCtr.level = 2;
+      }else {
+    	  todoCtr.level = 3;
+      }
     }, function(err){
     	$window.alert(err);
     });
@@ -301,12 +308,11 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   todoCtr.refreshList2 = function(){
 	  indexedDBDataCon.getTodos(2).then(function(data){
 		  todoCtr.todos2=data;
-		  console.log(data);
 	  }, function(err){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data[0];
+		  todoCtr.point= data[0]%50;
 		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
@@ -343,7 +349,7 @@ app.controller('TodoController', function($window, indexedDBDataCon){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data[0];
+		  todoCtr.point= data[0]%50;
 		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
@@ -376,12 +382,11 @@ app.controller('TodoController', function($window, indexedDBDataCon){
   todoCtr.refreshList4 = function(){
 	  indexedDBDataCon.getTodos(4).then(function(data){
 		  todoCtr.todos4=data;
-		  console.log(data);
 	  }, function(err){
 		  $window.alert(err);
 	  });
 	  indexedDBDataCon.getInfo().then(function(data){
-		  todoCtr.point= data[0];
+		  todoCtr.point= data[0]%50;
 		  todoCtr.nickname= data[1];
 	  }, function(err){
 		  $window.alert(err);
